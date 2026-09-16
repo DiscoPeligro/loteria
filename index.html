@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lotería · Control</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎴</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="dock.css">
+</head>
+<body>
+  <header class="barra">
+    <h1>Lotería</h1>
+    <span id="modo-actual" class="modo-actual"></span>
+    <span class="espacio"></span>
+    <span id="pill-sb" class="pill" title="Streamer.bot">SB</span>
+    <span id="pill-enlace" class="pill" title="Servidor local">Servidor</span>
+  </header>
+
+  <main class="dock">
+    <section class="col col-juego" aria-label="Juego">
+      <div class="actual" id="actual">
+        <div class="actual-img"><img id="actual-img" alt="" hidden></div>
+        <div class="actual-texto">
+          <div class="contador"><b id="cuenta">0</b><span>/54</span></div>
+          <div id="actual-nombre" class="actual-nombre">Sin cartas</div>
+          <div id="actual-verso" class="actual-verso">Saca la primera carta para empezar.</div>
+        </div>
+      </div>
+
+      <button id="btn-sacar" class="btn-sacar">Sacar carta <kbd>Espacio</kbd></button>
+
+      <div class="fila">
+        <button id="btn-deshacer" title="Regresa la última carta al mazo">↶ Deshacer</button>
+        <button id="btn-auto" class="toggle" aria-pressed="false">▶ Auto</button>
+        <label class="segundos" title="Segundos entre cartas">cada <input id="auto-seg" type="number" min="5" max="600" step="1" value="8"> s</label>
+        <span id="auto-cuenta" class="sutil"></span>
+      </div>
+
+      <div class="bloque">
+        <div class="bloque-titulo">Se juega a</div>
+        <div class="modos" id="modos" role="radiogroup" aria-label="Modo de juego"></div>
+      </div>
+
+      <div class="bloque">
+        <div class="bloque-titulo">Cartas que ya salieron <span class="sutil">(pasa el mouse para ver el nombre)</span></div>
+        <div id="tablero" class="tablero"></div>
+      </div>
+
+      <div class="fila">
+        <label class="interruptor"><input type="checkbox" id="chk-anunciar"><span>Anunciar cartas en el chat</span></label>
+        <span class="espacio"></span>
+        <button id="btn-probar" class="chico" title="Manda un mensaje de prueba al chat">Probar chat</button>
+      </div>
+      <label class="interruptor" title="Usa la cuenta de bot conectada en Streamer.bot (Platforms → Twitch → Accounts)"><input type="checkbox" id="chk-bot"><span>Mandar con la cuenta del bot</span></label>
+      <p id="sb-error" class="sb-error" role="alert" hidden></p>
+
+      <button id="btn-barajar" class="peligro">Nueva partida</button>
+    </section>
+
+    <section class="col col-gente" aria-label="Jugadores">
+      <nav class="tabs" role="tablist">
+        <button class="tab" data-vista="reclamos" role="tab">¡Lotería! <span id="badge-reclamos" class="badge" hidden></span></button>
+        <button class="tab" data-vista="cartones" role="tab">Cartones <span id="badge-cartones" class="badge"></span></button>
+        <button class="tab" data-vista="enlaces" role="tab">Enlaces</button>
+      </nav>
+
+      <div class="vista" id="vista-reclamos">
+        <div id="ganadores"></div>
+        <form class="mini-form" id="form-reclamar">
+          <input id="in-reclamar" placeholder="Usuario que gritó" autocomplete="off">
+          <button>Revisar</button>
+        </form>
+        <form class="mini-form" id="form-verificar">
+          <input id="in-verificar" placeholder="Código de cartón" autocomplete="off" maxlength="8">
+          <button>Verificar código</button>
+        </form>
+        <div id="resultado-manual" class="resultado" hidden></div>
+        <ul id="lista-reclamos" class="lista"></ul>
+      </div>
+
+      <div class="vista" id="vista-cartones" hidden>
+        <form class="mini-form" id="form-carton">
+          <input id="in-carton" placeholder="Usuario de Twitch" autocomplete="off">
+          <button>Dar cartón</button>
+        </form>
+        <label class="interruptor chico"><input type="checkbox" id="chk-avisar-carton" checked><span>Avisarle en el chat</span></label>
+        <ul id="lista-cartones" class="lista"></ul>
+      </div>
+
+      <div class="vista" id="vista-enlaces" hidden>
+        <p class="ayuda">Copia estas direcciones en OBS. Todo corre en tu compu.</p>
+        <label class="enlace">Overlay (Browser Source 1920×1080)<input readonly id="url-overlay"></label>
+        <label class="enlace">Tu usuario de Twitch (para tu propio cartón)<input id="in-mi-usuario" placeholder="p. ej. DiscoPeligro" autocomplete="off"></label>
+        <label class="enlace">Tu cartón para OBS (solo se ve, Browser Source)<input readonly id="url-carton-obs" placeholder="Escribe tu usuario arriba"></label>
+        <label class="enlace">Cartón para jugar desde el navegador<input readonly id="url-carton"></label>
+        <label class="enlace">Cartón público para la audiencia<input readonly id="url-publico" placeholder="Configura urlCartonPublico en datos/config.json"></label>
+        <p class="ayuda">Opciones del overlay: <code>?lado=izq</code>, <code>&amp;historial=5</code>, <code>&amp;escala=0.8</code>, <code>&amp;ocultarTras=12</code></p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="dock.js"></script>
+</body>
+</html>

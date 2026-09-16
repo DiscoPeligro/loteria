@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lotería · Mi cartón</title>
+  <meta name="description" content="Tu cartón de lotería mexicana para jugar con el stream.">
+  <meta name="theme-color" content="#e4007c">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎴</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito:wght@400;700;800&display=swap">
+  <link rel="stylesheet" href="carton.css">
+</head>
+<body>
+  <main class="contenedor">
+    <header class="cabeza">
+      <h1 class="logo">Lotería</h1>
+      <div class="meta">
+        <span class="quien" id="quien" hidden></span>
+        <span class="chip codigo" id="chip-codigo" hidden></span>
+        <span class="chip modo" id="chip-modo" hidden></span>
+      </div>
+    </header>
+
+    <section class="panel bienvenida" id="bienvenida" hidden>
+      <p class="entrada" id="texto-bienvenida"></p>
+
+      <form class="formulario" id="form-usuario" hidden>
+        <label for="in-usuario">Tu usuario de Twitch</label>
+        <div class="fila">
+          <input id="in-usuario" autocomplete="off" placeholder="usuario" required>
+          <button class="primario">Abrir mi cartón</button>
+        </div>
+      </form>
+
+      <form class="formulario" id="form-codigo" hidden>
+        <label for="in-codigo">Código de tu cartón</label>
+        <div class="fila">
+          <input id="in-codigo" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="8" placeholder="K7M2QX" required>
+          <button class="primario">Abrir</button>
+        </div>
+        <p class="nota">El código te lo da el stream cuando escribes <b>!carton</b> en el chat.</p>
+      </form>
+
+      <div class="separador"><span>o</span></div>
+      <button class="secundario" id="btn-practica">Generar un cartón de práctica</button>
+      <p class="error" id="error-bienvenida" role="alert" hidden></p>
+    </section>
+
+    <section class="juego" id="juego" hidden>
+      <div class="ultima" id="ultima" hidden>
+        <img id="ultima-img" alt="">
+        <div>
+          <div class="ultima-etiqueta">Última carta · <b id="ultima-cuenta">0</b>/54</div>
+          <div class="ultima-nombre" id="ultima-nombre"></div>
+        </div>
+      </div>
+
+      <div class="aviso-practica" id="aviso-practica" hidden>
+        Cartón de práctica: no cuenta para ganar en el stream. Pide el tuyo con <b>!carton</b> en el chat.
+      </div>
+
+      <div class="gana" id="gana" hidden role="status">
+        <div class="gana-grito">¡Lotería!</div>
+        <div class="gana-texto" id="gana-texto"></div>
+        <button class="primario" id="btn-gritar" hidden>Gritar ¡Lotería!</button>
+      </div>
+
+      <div class="carton" id="carton" aria-label="Cartón de lotería, toca una carta para marcarla"></div>
+
+      <p class="progreso" id="progreso"></p>
+
+      <div class="controles" id="controles">
+        <label class="control" id="control-modo" hidden>
+          Se juega a
+          <select id="sel-modo"></select>
+        </label>
+        <label class="control interruptor" id="control-auto" hidden>
+          <input type="checkbox" id="chk-auto">
+          <span>Marcar solo las que salen</span>
+        </label>
+        <span class="espacio"></span>
+        <button class="secundario chico" id="btn-borrar">Quitar frijolitos</button>
+        <button class="secundario chico" id="btn-otro">Otro cartón</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="carton.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+:root {
+  --escala: 1;
+  --rosa: #e4007c;
+  --amarillo: #ffb81c;
+  --verde: #00a36c;
+  --azul: #1f4e9e;
+  --papel: #fff4dc;
+  --tinta: #231815;
+  --ancho-carta: 380px;
+  --titulo: 'Alfa Slab One', 'Rockwell', Georgia, serif;
+  --cuerpo: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent; /* OBS: la fuente del navegador se compone sobre la escena */
+}
+[hidden] { display: none !important; }
+
+.escena { position: fixed; inset: 0; font-family: var(--cuerpo); }
+
+/* ---------------------------------------------------------------- grupo de la carta */
+.grupo {
+  position: absolute;
+  right: 56px;
+  bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  transform: scale(var(--escala));
+  transform-origin: bottom right;
+  transition: opacity .6s ease;
+}
+.izq .grupo { right: auto; left: 56px; align-items: flex-start; transform-origin: bottom left; }
+.grupo.oculto { opacity: 0; }
+
+.insignias { display: flex; gap: 10px; }
+.insignia {
+  font: 800 24px/1 var(--cuerpo);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 99px;
+  background: rgba(35, 24, 21, .82);
+  border: 3px solid var(--amarillo);
+  box-shadow: 0 4px 14px rgba(0,0,0,.35);
+}
+.insignia b { font: 30px/1 var(--titulo); color: var(--amarillo); }
+.insignia.modo { border-color: var(--rosa); }
+
+.fila-carta { display: flex; align-items: flex-end; gap: 22px; }
+.izq .fila-carta { flex-direction: row-reverse; }
+
+/* ---------------------------------------------------------------- la carta con volteo */
+.carta-marco { perspective: 1400px; }
+.carta {
+  position: relative;
+  width: var(--ancho-carta);
+  aspect-ratio: 600 / 950;
+  transform-style: preserve-3d;
+}
+.carta.entra { animation: entra 1s cubic-bezier(.2,.9,.25,1) both; }
+@keyframes entra {
+  0%   { transform: translateY(-160px) rotateY(180deg) rotateZ(-8deg) scale(.7); opacity: 0; }
+  20%  { opacity: 1; }
+  65%  { transform: translateY(8px) rotateY(-12deg) rotateZ(2deg) scale(1.05); }
+  100% { transform: none; }
+}
+.carta.sale { animation: sale .45s ease-in both; }
+@keyframes sale { to { transform: translateY(60px) rotateZ(10deg) scale(.8); opacity: 0; } }
+
+.cara {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 0 4px rgba(255,255,255,.9);
+}
+.cara img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; display: block; }
+.reverso {
+  transform: rotateY(180deg);
+  background: #fff url('cartas/reverso.jpg') center / cover;
+  background-clip: content-box;
+}
+
+/* ---------------------------------------------------------------- historial */
+.historial { display: flex; flex-direction: row-reverse; align-items: flex-end; gap: 12px; padding-bottom: 6px; }
+.izq .historial { flex-direction: row; }
+.mini {
+  width: 104px;
+  aspect-ratio: 600 / 950;
+  border-radius: 8px;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.4);
+  transform: rotate(var(--giro, 0deg));
+}
+.mini img { width: 100%; height: 100%; object-fit: cover; border-radius: 5px; display: block; }
+.mini.nueva { animation: mini-entra .6s .35s cubic-bezier(.3,1.5,.5,1) both; }
+@keyframes mini-entra { from { transform: translateX(80px) scale(1.6); opacity: 0; } }
+
+/* ---------------------------------------------------------------- letrero */
+.letrero {
+  position: relative;
+  min-width: var(--ancho-carta);
+  max-width: 820px;
+  background: var(--papel);
+  color: var(--tinta);
+  border-radius: 14px;
+  padding: 16px 26px 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  border-top: 10px solid var(--rosa);
+  text-align: right;
+}
+.izq .letrero { text-align: left; }
+.letrero::before {
+  /* tira de papel picado */
+  content: '';
+  position: absolute; left: 0; right: 0; top: -10px; height: 10px;
+  background: repeating-linear-gradient(90deg, var(--rosa) 0 40px, var(--amarillo) 40px 80px, var(--verde) 80px 120px, var(--azul) 120px 160px);
+  border-radius: 14px 14px 0 0;
+}
+.letrero.entra { animation: letrero .5s .45s cubic-bezier(.2,1.3,.4,1) both; }
+@keyframes letrero { from { transform: translateY(30px); opacity: 0; } }
+.nombre { font: 60px/1.05 var(--titulo); letter-spacing: .5px; }
+.nombre small { font-size: .55em; color: var(--rosa); margin-right: 10px; vertical-align: .35em; }
+.verso { font: italic 700 28px/1.25 var(--cuerpo); margin-top: 6px; color: #5a4636; text-wrap: balance; }
+.sin-verso .verso { display: none; }
+
+/* ---------------------------------------------------------------- ¡Lotería! */
+.loteria {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.loteria-caja {
+  text-align: center;
+  background: radial-gradient(circle at 50% 40%, rgba(35,24,21,.92), rgba(35,24,21,.8));
+  border: 8px solid var(--amarillo);
+  outline: 6px solid var(--rosa);
+  border-radius: 36px;
+  padding: 36px 90px 44px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  animation: grito .8s cubic-bezier(.2,1.6,.4,1) both;
+}
+@keyframes grito { from { transform: scale(.3) rotate(-10deg); opacity: 0; } }
+.loteria.sale .loteria-caja { animation: grito-sale .5s ease-in both; }
+@keyframes grito-sale { to { transform: scale(.8); opacity: 0; } }
+.loteria-grito {
+  font: 190px/1 var(--titulo);
+  color: var(--amarillo);
+  text-shadow: 8px 8px 0 var(--rosa), 0 0 40px rgba(255,184,28,.5);
+  animation: late 1s .8s ease-in-out infinite alternate;
+}
+@keyframes late { to { transform: scale(1.05) rotate(-1.5deg); } }
+.loteria-quien { font: 800 72px/1.1 var(--cuerpo); color: #fff; margin-top: 14px; overflow-wrap: anywhere; }
+.loteria-detalle { font: italic 700 34px/1.2 var(--cuerpo); color: #ffd98a; margin-top: 8px; }
+
+.confeti { position: absolute; inset: 0; overflow: hidden; }
+.confeti i {
+  position: absolute;
+  top: -40px;
+  width: 16px;
+  height: 26px;
+  border-radius: 3px;
+  animation: cae linear forwards;
+}
+@keyframes cae {
+  to { transform: translate3d(var(--dx), 1180px, 0) rotate(var(--rot)); }
+}
+
+/* ---------------------------------------------------------------- aviso chico */
+.toast {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  font: 800 40px/1 var(--cuerpo);
+  color: var(--tinta);
+  background: var(--papel);
+  border-bottom: 8px solid var(--rosa);
+  padding: 20px 40px;
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(0,0,0,.4);
+  animation: toast 4.5s ease both;
+  white-space: nowrap;
+}
+@keyframes toast {
+  0% { transform: translate(-50%, -140px); }
+  12%, 85% { transform: translate(-50%, 0); }
+  100% { transform: translate(-50%, -140px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carta.entra, .letrero.entra, .mini.nueva, .loteria-caja, .loteria-grito { animation-duration: .01s; animation-iteration-count: 1; }
+}

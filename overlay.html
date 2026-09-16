@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Lotería · Overlay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito:ital,wght@0,800;1,700&display=swap">
+  <link rel="stylesheet" href="overlay.css">
+</head>
+<body>
+  <div class="escena" id="escena">
+    <div class="grupo" id="grupo" hidden>
+      <div class="insignias">
+        <span class="insignia modo" id="modo"></span>
+        <span class="insignia cuenta"><b id="cuenta">0</b>/54</span>
+      </div>
+
+      <div class="fila-carta">
+        <div class="historial" id="historial"></div>
+        <div class="carta-marco">
+          <div class="carta" id="carta">
+            <div class="cara frente"><img id="carta-img" alt=""></div>
+            <div class="cara reverso"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="letrero" id="letrero">
+        <div class="nombre" id="nombre"></div>
+        <div class="verso" id="verso"></div>
+      </div>
+    </div>
+
+    <div class="loteria" id="loteria" hidden>
+      <div class="loteria-caja">
+        <div class="loteria-grito">¡Lotería!</div>
+        <div class="loteria-quien" id="loteria-quien"></div>
+        <div class="loteria-detalle" id="loteria-detalle"></div>
+      </div>
+      <div class="confeti" id="confeti"></div>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+  <script type="module" src="overlay.js"></script>
+</body>
+</html>
