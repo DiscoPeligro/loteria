@@ -27,9 +27,10 @@ const NOMBRES_Y_VERSOS = [
   ['La Luna', 'El farol de los enamorados'],
   ['El Cotorro', 'Cotorro, cotorro, saca la pata y empiézame a platicar'],
   ['El Borracho', '¡Ah, qué borracho tan necio, ya no lo puedo aguantar!'],
-  // La 26 (El Negrito en el mazo original) es la carta de la casa: La Cupido, el personaje
-  // de DiscoPeligro, que la pidió la audiencia del stream. Verso nuevo, no tradicional.
-  ['La Cupido', 'Alas de ángel y orejas de gato: te flecha el corazón en un rato'],
+  // La 26 (El Negrito en el mazo original) es la carta de la casa: La Cupido, o sea Priya,
+  // el personaje de DiscoPeligro (loba, okamimi), que la pidió la audiencia del stream.
+  // Verso nuevo, no tradicional.
+  ['La Cupido', 'Alas de ángel y orejas de loba: te flecha el corazón y te lo roba'],
   ['El Corazón', 'No me extrañes, corazón, que regreso en el camión'],
   ['La Sandía', 'La barriga que Juan tenía, era empacho de sandía'],
   ['El Tambor', "No te arrugues, cuero viejo, que te quiero pa' tambor"],
