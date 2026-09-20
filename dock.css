@@ -215,6 +215,19 @@ kbd {
 }
 .ganador b { font: 18px var(--titulo); color: var(--amarillo); }
 
+/* chats donde se anuncia */
+.plataformas { gap: 6px; }
+.plat { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;
+  padding: 5px 10px; border-radius: 99px; border: 1px solid var(--borde); color: var(--sutil); font-size: 12px; font-weight: 800; }
+.plat input { margin: 0; accent-color: var(--verde); }
+.plat:has(input:checked).twitch { border-color: #9146ff; color: #d9c5ff; background: #2a1f45; }
+.plat:has(input:checked).youtube { border-color: #ff3b3b; color: #ffc7c7; background: #451f1f; }
+.plataformas.apagado .plat { opacity: .45; }
+.etiqueta-plat { font: 800 10px/1 var(--cuerpo); padding: 3px 5px; border-radius: 4px; margin-right: 6px; vertical-align: 1px; }
+.etiqueta-plat.twitch { background: #9146ff; color: #fff; }
+.etiqueta-plat.youtube { background: #ff0033; color: #fff; }
+.etiqueta-plat.kick, .etiqueta-plat.trovo { background: #53fc18; color: #000; }
+
 .enlace { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--sutil); }
 .enlace input { color: var(--texto); font: 12px ui-monospace, Consolas, monospace; }
 .ayuda { margin: 0; font-size: 12px; color: var(--sutil); }

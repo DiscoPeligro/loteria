@@ -27,9 +27,9 @@ const NOMBRES_Y_VERSOS = [
   ['La Luna', 'El farol de los enamorados'],
   ['El Cotorro', 'Cotorro, cotorro, saca la pata y empiézame a platicar'],
   ['El Borracho', '¡Ah, qué borracho tan necio, ya no lo puedo aguantar!'],
-  // En el mundo de VRChat la 26 es La Bailarina (reemplaza a El Negrito). No tiene verso
-  // tradicional, así que este es nuevo.
-  ['La Bailarina', 'Con su falda en remolino, zapatea al son del violín'],
+  // La 26 (El Negrito en el mazo original) es la carta de la casa: La Cupido, el personaje
+  // de DiscoPeligro, que la pidió la audiencia del stream. Verso nuevo, no tradicional.
+  ['La Cupido', 'Alas de ángel y orejas de gato: te flecha el corazón en un rato'],
   ['El Corazón', 'No me extrañes, corazón, que regreso en el camión'],
   ['La Sandía', 'La barriga que Juan tenía, era empacho de sandía'],
   ['El Tambor', "No te arrugues, cuero viejo, que te quiero pa' tambor"],

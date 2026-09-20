@@ -76,8 +76,12 @@ function ponerUrl() {
   u.search = '';
   u.hash = '';
   if (conectado) {
-    if (usuario) u.searchParams.set('usuario', usuario);
-    else if (codigo) u.searchParams.set('codigo', codigo);
+    if (usuario) {
+      u.searchParams.set('usuario', usuario);
+      if (params.get('plataforma')) u.searchParams.set('plataforma', params.get('plataforma'));
+    } else if (codigo) {
+      u.searchParams.set('codigo', codigo);
+    }
     if (esObs) u.searchParams.set('obs', '');
   } else if (codigo) {
     u.hash = codigo;
@@ -106,7 +110,10 @@ function abrirCodigo(c) {
 
 /** En modo conectado con ?usuario=, sigue al cartón de esa persona (por si pide uno nuevo). */
 function seguirUsuario() {
-  const registro = estado.cartones.find((c) => c.usuario.toLowerCase() === usuario.toLowerCase());
+  // El mismo nombre puede existir en Twitch y en YouTube: ?plataforma= decide, y si no, Twitch.
+  const plat = params.get('plataforma') || 'twitch';
+  const candidatos = estado.cartones.filter((c) => c.usuario.toLowerCase() === usuario.toLowerCase());
+  const registro = candidatos.find((c) => (c.plataforma ?? 'twitch') === plat) ?? candidatos[0];
   if (registro) {
     usuario = registro.usuario;
     abrirCodigo(registro.codigo);

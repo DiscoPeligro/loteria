@@ -94,7 +94,22 @@ setInterval(() => {
 
 // ---------------------------------------------------------------- chat
 $('#chk-anunciar').addEventListener('change', (ev) => hacer('anunciar', { valor: ev.target.checked }));
+for (const chk of document.querySelectorAll('#plataformas input')) {
+  chk.addEventListener('change', () => hacer('anunciarEn', { plataforma: chk.dataset.plataforma, valor: chk.checked }));
+}
+
+const NOMBRE_PLAT = { twitch: 'Twitch', youtube: 'YouTube', kick: 'Kick', trovo: 'Trovo' };
+/** Etiqueta chiquita de plataforma; en Twitch no se pone para no llenar la lista de lo de siempre. */
+function etiquetaPlat(plataforma) {
+  if (!plataforma || plataforma === 'twitch') return null;
+  return el('span', { class: `etiqueta-plat ${plataforma}` }, NOMBRE_PLAT[plataforma] ?? plataforma);
+}
 $('#chk-bot').addEventListener('change', (ev) => hacer('comoBot', { valor: ev.target.checked }));
+$('#chk-voz').addEventListener('change', (ev) => hacer('accionActiva', { valor: ev.target.checked }));
+$('#btn-probar-voz').addEventListener('click', async () => {
+  const r = await hacer('probarVoz');
+  if (r.ok) avisar(`Corrí la acción «${estado?.config?.accionAlSacar}». Si no se oye, revisa que exista con ese nombre exacto.`);
+});
 $('#btn-probar').addEventListener('click', async () => {
   const r = await hacer('probarChat');
   if (r.ok) avisar('Mensaje de prueba enviado al chat.');
@@ -249,7 +264,16 @@ function pintar() {
   $('#sb-error').hidden = !sinPermiso;
   $('#sb-error').textContent = s.streamerbot.error ?? '';
   $('#chk-anunciar').checked = !!s.config.anunciar;
+  $('#plataformas').classList.toggle('apagado', !s.config.anunciar);
+  for (const chk of document.querySelectorAll('#plataformas input')) {
+    chk.checked = !!s.config.plataformas?.[chk.dataset.plataforma];
+  }
   $('#chk-bot').checked = !!s.config.comoBot;
+  $('#chk-voz').checked = !!s.config.accionActiva;
+  $('#lbl-voz').title = s.config.accionAlSacar
+    ? `Corre la acción «${s.config.accionAlSacar}» de Streamer.bot en cada carta`
+    : 'Falta accionAlSacar en datos/config.json';
+  $('#btn-probar-voz').disabled = !s.streamerbot.conectado || !s.config.accionAlSacar;
   $('#btn-probar').disabled = !s.streamerbot.conectado;
 
   pintarBotones();
@@ -263,7 +287,7 @@ function pintar() {
 function pintarGanadores() {
   const g = estado.ganadores;
   $('#ganadores').replaceChildren(...g.map((r) => el('div', { class: 'ganador' },
-    el('b', {}, `¡Lotería! ${r.usuario}`),
+    el('b', {}, etiquetaPlat(r.plataforma), `¡Lotería! ${r.usuario}`),
     el('div', { class: 'detalle' }, `${r.patron} · cartón `, el('span', { class: 'codigo' }, r.codigo), ` · con ${r.salidas} cartas`))));
 }
 
@@ -280,7 +304,7 @@ function pintarReclamos() {
   lista.replaceChildren(...estado.reclamos.map((r) => el('li', { class: r.valido ? 'valido' : '' },
     el('span', { class: 'icono' }, r.valido ? '✔' : '✘'),
     el('div', {},
-      el('div', { class: 'quien' }, r.usuario),
+      el('div', { class: 'quien' }, etiquetaPlat(r.plataforma), r.usuario),
       el('div', { class: 'detalle' }, r.valido
         ? `${r.patron} · ${hora(r.hora)}`
         : `Le falta: ${nombresFaltan(r.faltan)} · ${hora(r.hora)}`)),
@@ -296,15 +320,15 @@ function pintarCartones() {
   }
   lista.replaceChildren(...cartones.map((c) => el('li', {},
     el('span', { class: 'codigo' }, c.codigo),
-    el('div', { class: 'quien' }, c.usuario),
+    el('div', { class: 'quien' }, etiquetaPlat(c.plataforma), c.usuario),
     el('div', { class: 'acciones' },
       el('button', {
         class: 'chico', title: 'Abrir su cartón',
-        onclick: () => window.open(`/carton.html?usuario=${encodeURIComponent(c.usuario)}`, '_blank'),
+        onclick: () => window.open(`/carton.html?codigo=${encodeURIComponent(c.codigo)}`, '_blank'),
       }, 'Ver'),
       el('button', {
         class: 'chico', title: 'Quitarle el cartón',
-        onclick: () => hacer('quitarCarton', { usuario: c.usuario }),
+        onclick: () => hacer('quitarCarton', { clave: c.clave }),
       }, '✕')))));
 }
 
